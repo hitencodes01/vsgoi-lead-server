@@ -23,6 +23,9 @@ app.use(json());
 
 connectDB();
 
+app.get("/",(req,res)=>{
+  res.send("VSGOI_-LEAD")
+})
 app.use("/api/secUser", secUserRoutes);
 app.use("/api/lead", leadRoutes);
 app.use("/api/admin", protect, adminRoutes);

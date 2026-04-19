@@ -29,15 +29,14 @@ export async function secUserLogin(req: Request, res: Response) {
       .status(200)
       .cookie("token", token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        httpOnly: false,
+        httpOnly: true,
         secure: true,
-        sameSite: "lax",
+        sameSite: "none",
       })
       .json({ success: true, message: "Login successfull", user: payload });
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, error: "Unexpected server error", });
-
+      .json({ success: false, error: "Unexpected server error" });
   }
 }

@@ -22,7 +22,7 @@ app.use(
     origin: (origin, callback) => {
       const allowedOrigins = [
         "http://localhost:5173",
-        "https://vsgoi-lead-client.vercel.app",
+        "https://vsgoi-lead-client-git-main-hitechs-projects-ab108f9f.vercel.app",
       ];
 
       if (
@@ -59,7 +59,7 @@ export const io = new Server(server, {
     origin: (origin, callback) => {
       const allowedOrigins = [
         "http://localhost:5173",
-        "https://vsgoi-lead-client.vercel.app",
+        "https://vsgoi-lead-client-git-main-hitechs-projects-ab108f9f.vercel.app",
       ];
 
       // Allow all Vercel preview deployments for your project

@@ -17,15 +17,35 @@ config();
 
 const app = express();
 
-app.use(cors({ origin: ["http://localhost:5173" , "https://vsgoi-lead-client.vercel.app"], credentials: true }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "https://vsgoi-lead-client.vercel.app",
+      ];
+
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        /https:\/\/vsgoi-lead-client.*\.vercel\.app$/.test(origin)
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 app.use(json());
 
 connectDB();
 
-app.get("/",(req,res)=>{
-  res.send("VSGOI_-LEAD")
-})
+app.get("/", (req, res) => {
+  res.send("VSGOI_-LEAD");
+});
 app.use("/api/secUser", secUserRoutes);
 app.use("/api/lead", leadRoutes);
 app.use("/api/admin", protect, adminRoutes);
@@ -36,7 +56,23 @@ app.use("/api/notifications", notifiactionRoutes);
 const server = http.createServer(app);
 export const io = new Server(server, {
   cors: {
-    origin : ["http://localhost:5173" , "https://vsgoi-lead-client.vercel.app"],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "https://vsgoi-lead-client.vercel.app",
+      ];
+
+      // Allow all Vercel preview deployments for your project
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        /https:\/\/vsgoi-lead-client.*\.vercel\.app$/.test(origin)
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   },
 });
@@ -51,4 +87,3 @@ const port = process.env.PORT;
 server.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
-

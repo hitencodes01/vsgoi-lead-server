@@ -37,8 +37,7 @@ EXPOSE 8000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:8000', (r) => {if (r.statusCode !== 404) throw new Error(r.statusCode)})"
-
+  CMD node -e "require('http').get('http://localhost:' + (process.env.PORT || 8000), (r) => { process.exit(r.statusCode >= 500 ? 1 : 0) })"
 # Use dumb-init to run Node
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "dist/index.js"]

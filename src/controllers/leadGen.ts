@@ -15,7 +15,6 @@ export const postLead = async (req: Request, res: Response) => {
         interestedCourse === isPrimaryUserExist?.interestedCourse
       ) {
         return res.status(409).json({
-          success: false,
           message: "User already exists with same course",
         });
       }
